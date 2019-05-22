@@ -17,7 +17,7 @@ let j;
 for (j = 0; j < close.length; j++) {
   close[j].onclick = function() {
     let div = this.parentElement;
-    div.style.display = "none";
+    div.remove();
   }
 }
 
@@ -33,6 +33,20 @@ list.addEventListener('click', function(ev) {
 function newElement() {
   let li = document.createElement("li");
   let inputValue = document.getElementById("myInput").value;
+ 
+//Проверка на наличие одинаковых дел в списке и добавление или нет такого же 
+  let liItem = document.getElementsByTagName('li');
+  let arr = []; 
+  for(let k = 0; k <= liItem.length - 1; k++){
+  arr.push(liItem.item(k).innerText.replace(/×/,''));
+  if(arr[k].trim() == inputValue){
+        let oneMore = confirm('Такое дело уже есть, желаете добавить еще одно?');
+        if(oneMore == false){
+          document.getElementById("myInput").value = "";
+          return;
+      }
+    }
+  }
   let t = document.createTextNode(inputValue);
   li.appendChild(t);
   //Проверка на заполненность поля ввода
@@ -52,7 +66,7 @@ function newElement() {
   for (i = 0; i < close.length; i++) {
     close[i].onclick = function() {
       let div = this.parentElement;
-      div.style.display = "none";
+      div.remove();
     }
   }
 }
